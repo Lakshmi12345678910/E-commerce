@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <style>
+        .cart-item {
+            width: 100%;
+            border: 1px solid black;
+            padding: 25px;
+            margin:50px 0px 10px 0px;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-left: 120px;
+        }
+
+        .cart-item div {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .cart-item h3 {
+            font-size: 20px;
+        }
+
+        .cart-item p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-controls button {
+            padding: 5px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .order-summary {
+            width: 30%;
+        }
+        .empty-cart-container {
+            text-align: center;
+            margin: 100px auto;
+        }
+        .text{
+            text-align: center;
+        }
+    </style>
+   
+</head>
+
+<body>
+    <header class="d-flex justify-content-evenly sticky-top bg-white">
+        <h1 class="fw-bold fs-3 mt-4">Ecommerce</h1>
+        <nav class="mt-5">
+            <ul class="d-flex mt-0">
+                <li class="me-5 list-group-item fs-4"><a class="text-decoration-none text-dark" href="home.html">Home</a></li>
+                <li class="me-5 list-group-item fs-4"><a class="text-decoration-none text-dark" href="product.html">Products</a></li>
+                <li class="me-5 list-group-item fs-4"><a class="text-decoration-none text-dark" href="about.html">About</a></li>
+                <li class="me-5 list-group-item fs-4"><a class="text-decoration-none text-dark" href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="d-flex">
+            <a href="login.html"><button class="mt-5 bg-light w-75 ms-5 rounded"><i class="fa-solid fa-right-to-bracket"></i> Login</button></a>
+            <a href="registration.html"><button class="mt-5 bg-light w-75 ms-5 rounded"><i class="fa-solid fa-user-plus"></i> Register</button></a>
+            <a href="cart.html"><button class="mt-5 bg-light w-75 ms-5 rounded"><i class="fa-solid fa-cart-shopping"></i> cart</button></a>
+        </div>
+    </header>
+    <div>
+        <p class="fs-1 text-center mt-5">My Cart</p>
+        <hr />
+        <div class="d-flex w-75 gap-5 me-6 container">
+            <div class="w-175">
+                <div id="containers" class="w-100"></div>
+            </div>
+            <div id="order-summary-section" class="order-summary bg-white mt-5 p-4 border border-dark ms-5 align-self-start">
+                <h2 class="h2 text-center">Order Summary</h2>
+                <p class="summary-details fs-5 mb-2">Total Products: <span id="total-products">0</span></p>
+                <p class="summary-details fs-5 mb-2">Shipping Charges: $30</p>
+                <p class="summary-details fs-5 mb-4">Total Cost: $<spanid="total-cost">0</span></p>
+                <button class="btn bg-light text-dark border border-2 border-dark">Go to Checkout</button>
+            </div>
+        </div>
+    </div>
+    <div class="text">
+        <p class="mt-5"> Made with <i class="fa-solid fa-heart" style="color: red;"></i> by <span style="text-decoration: underline;">AchieversIT</span></p>
+     </div>
+    <script>
+        function displayCartItems() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const containers = document.getElementById('containers');
+            const totalProductsElement = document.getElementById('total-products');
+            const totalCostElement = document.getElementById('total-cost');
+            const orderSummarySection = document.getElementById('order-summary-section');
+            const shippingCost = 30;
+
+            containers.innerHTML = '';
+
+            if (cart.length === 0) {
+                containers.innerHTML = `
+                    <div class="empty-cart-container">
+                        <p class="empty-cart-message">Your cart is empty</p>
+                        <button class="continue-shopping-btn ">Continue Shopping</button>
+                    </div>
+                `;
+                document.querySelector('.continue-shopping-btn').addEventListener('click', () => {
+                    window.location.href = 'product.html';
+                });
+
+                totalProductsElement.textContent = 0;
+                totalCostElement.textContent = 0;
+                orderSummarySection.style.display = 'none';
+                return;
+            }
+            let totalCost = 0;
+
+            cart.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('cart-item');
+
+                const image = document.createElement('img');
+                image.src = product.image;
+                image.alt = product.title;
+
+                const info = document.createElement('div');
+
+                const title = document.createElement('h3');
+                title.textContent = product.title;
+
+                const price = document.createElement('p');
+                price.textContent = `Price: $${product.price}`;
+
+                const quantityControls = document.createElement('div');
+                quantityControls.classList.add('quantity-controls');
+
+                const decreaseBtn = document.createElement('button');
+                decreaseBtn.textContent = '-';
+                decreaseBtn.addEventListener('click', () => updateQuantity(product.id, -1));
+
+                const quantity = document.createElement('p');
+                quantity.textContent = product.quantity;
+
+                const increaseBtn = document.createElement('button');
+                increaseBtn.textContent = '+';
+                increaseBtn.addEventListener('click', () => updateQuantity(product.id, 1));
+
+                quantityControls.appendChild(decreaseBtn);
+                quantityControls.appendChild(quantity);
+                quantityControls.appendChild(increaseBtn);
+
+                info.appendChild(title);
+                info.appendChild(price);
+                info.appendChild(quantityControls);
+
+                productElement.appendChild(image);
+                productElement.appendChild(info);
+
+                containers.appendChild(productElement);
+
+                totalCost += product.price * product.quantity;
+            });
+
+            totalProductsElement.textContent = cart.reduce((total, product) => total + product.quantity, 0);
+            totalCostElement.textContent = totalCost + shippingCost;
+        }
+
+        function updateQuantity(productId, change) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            const productIndex = cart.findIndex(product => product.id === productId);
+            if (productIndex > -1) {
+                cart[productIndex].quantity += change;
+
+                if (cart[productIndex].quantity <= 0) {
+                    cart.splice(productIndex, 1);
+                }
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCartItems();
+        }
+
+        displayCartItems();
+    </script>
+</body>
+
+</html>

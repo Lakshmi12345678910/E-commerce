@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+     <style>
+        *{
+    margin: 0; 
+    padding: 0;
+}
+.main{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    
+}
+.nav ul li{
+    display: inline;
+    
+}
+li a{
+    text-decoration: none;
+    color: black;
+    font-size: larger;
+    padding: 20px;
+}
+.nav {
+    margin-top: 10px;
+    margin-left: 200px;
+}
+button{
+    padding: 10px;
+    margin: 10px;
+}
+form{
+    text-align: center;
+    margin-top: 30px;
+}
+h6{
+    margin-top: 30px;
+    margin-right: 90px;
+font-size: xx-large;
+}
+h1{
+    margin-top: 50px;
+    text-align: center;
+}
+.login{
+    background-color: gray;
+    color:white;
+}
+h3{
+    margin-top: 30px;
+    margin-left:20px;
+    margin-right: 120px;
+    font-size: x-large;
+}
+
+input{
+    padding:10px;
+    font-size: large;
+}
+h4{
+    margin-top: 30px;
+    margin-right: 10px;
+    font-size: larger;
+}
+</style>
+</head>
+<body>
+    <section class="main">
+       <div class="head">
+            <h1>Ecommerce</h1>
+     </div>
+       <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="product.html">Products</a></li>
+                    <li><a href="About.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+       </div>
+       <div class="btn">
+        <a href="login.html"><button><i class="fa-solid fa-right-to-bracket"></i>Login</button></a>
+        <a href="registration.html"> <button><i class="fa-solid fa-user"></i>Register</button></a>
+        <a href="cart.html"><button><i class="fa-solid fa-cart-shopping"></i>Cart</button></a>
+   </div>
+       </section>
+       <h1>Register</h1>
+       <hr/>
+       <form>
+        <h6>Full Name</h6>
+        <input type="text" placeholder="Enter Your Name"/>
+        <h3>Email address</h3>
+        <input type="text" placeholder="name@example.com" text="email"/>
+        <h3>Password</h3> 
+        <input type="pwd" placeholder="Password"/>
+        <h4>Already has an account?<a href="#">Login</a></h4>
+        <button>Register</button> 
+        <p>Made with<i class="fa-solid fa-heart" style="color:red "></i> by<a href="#">AchieversIT</a></p>
+      </form>
+    </body>
+    </html>
